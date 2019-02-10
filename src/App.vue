@@ -9,10 +9,10 @@
 		<nav class="navbar is-fixed-bottom">
 			<div class="form container">
 				<div class="columns full">
-					<div class="column is-8"><input class="input" v-model="draft" @keyup.enter="addNote" /></div>
+					<div class="column is-8"><input placeholder="Type an awesome note" ref="input" class="input" v-model="draft" @keyup.enter="addNote" /></div>
 					<div class="column is-2">
-						<div class="select">
-							<select v-model="selectedColor">
+						<div class="select full">
+							<select class="full" v-model="selectedColor">
 								<option>blue</option>
 								<option>yellow</option>
 								<option>pink</option>
@@ -35,6 +35,9 @@
 		components: {
 			Notes
 		},
+		mounted() {
+			this.$refs.input.focus();
+		},
 		data() {
 			return {
 				draft: '',
@@ -44,7 +47,6 @@
 		},
 		computed: {
 			canAdd: function() {
-				console.log('comp');
 				return this.draft.length;
 			}
 		},

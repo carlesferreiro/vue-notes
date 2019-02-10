@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul>
-      <li @dblclick="toggleedit(note.id)" :class="note.background" v-for="note in notes" v-bind:key="note.id">
-        <button class="toggleedit" @click="toggleedit(note.id)">&#8634;</button>
+      <li :class="note.background" v-for="note in notes" v-bind:key="note.id">
+        <!-- <button class="toggleedit" @click="toggleedit(note.id)">&#8634;</button> -->
         <button class="remove" @click="remove(note.id)">&times;</button>
         
         <textarea @blur="toggleedit(note.id)" class="textarea" v-if="note.editing" v-model="note.description"></textarea>
-        <div v-else>{{ note.description }}</div>
+        <div @click="toggleedit(note.id)" v-else>{{ note.description }}</div>
       </li>
     </ul>
   </div>
