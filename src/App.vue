@@ -2,8 +2,8 @@
 	<div id="app">
 
 		<div class="container">
-			<h1 class="has-text-centered is-size-3">Notes importants</h1>
-			<Notes :notes="notes" @remove="deleteNote" />
+			<h1 class="has-text-centered is-size-3">Notes</h1>
+			<Notes :notes="notes" @remove="deleteNote" @toggleedit="toggleEditNote" />
 		</div>
 
 		<nav class="navbar is-fixed-bottom">
@@ -19,7 +19,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="column is-2"><button class="button full" @click="addNote">Afegir</button></div>
+					<div class="column is-2"><button :disabled="!canAdd" class="button full" @click="addNote">Add note</button></div>
 				</div>
 			</div>
 		</nav>
@@ -42,19 +42,31 @@
 				selectedColor: 'yellow',
 			}
 		},
+		computed: {
+			canAdd: function() {
+				console.log('comp');
+				return this.draft.length;
+			}
+		},
 		methods: {
 			addNote() {
+				if(!this.canAdd) return false;
 				let id = this.notes.length+1;
 				this.notes.push({
 					id,
 					description: this.draft,
 					background: this.selectedColor,
+					editing: false,
 				});
 				this.draft = '';
 			},
 			deleteNote(id) {
 				let index = this.notes.findIndex(note => note.id == id);
 				if(index>=0) this.notes.splice(index, 1);
+			},
+			toggleEditNote(id) {
+				let index = this.notes.findIndex(note => note.id == id);
+				this.notes[index].editing=!this.notes[index].editing;
 			}
 		}
 	}

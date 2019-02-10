@@ -1,9 +1,12 @@
 <template>
   <div>
     <ul>
-      <li :class="note.background" v-for="note in notes" v-bind:key="note.id">
-        <button @click="remove(note.id)">&times;</button>
-        {{ note.description }}
+      <li @dblclick="toggleedit(note.id)" :class="note.background" v-for="note in notes" v-bind:key="note.id">
+        <button class="toggleedit" @click="toggleedit(note.id)">&#8634;</button>
+        <button class="remove" @click="remove(note.id)">&times;</button>
+        
+        <textarea @blur="toggleedit(note.id)" class="textarea" v-if="note.editing" v-model="note.description"></textarea>
+        <div v-else>{{ note.description }}</div>
       </li>
     </ul>
   </div>
@@ -18,6 +21,9 @@
     methods: {
      remove(id) {
       this.$emit('remove', id);
+    },
+     toggleedit(id) {
+      this.$emit('toggleedit', id);
     }
   }
 }
@@ -32,6 +38,7 @@ ul {
     position: relative;
     display: inline-block;
     width: 200px;
+    height: 200px;
     padding: 1em 1.5em;
     margin: 0.5em;
     color: #333;
@@ -62,6 +69,17 @@ ul {
       padding: 0px;
       margin: 0px;
       cursor: pointer;
+
+      &.toggleedit {
+        right: 30px;
+      }
+    }
+
+    textarea {
+      height: calc(100% - 20px);
+      width: 100%;
+      opacity: 0.8;
+      resize: none;
     }
 
     &.yellow {
