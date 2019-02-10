@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="note in notes">
+      <li :class="note.background" v-for="note in notes" v-bind:key="note.id">
         <button @click="remove(note.id)">&times;</button>
         {{ note.description }}
       </li>
@@ -35,7 +35,6 @@ ul {
     padding: 1em 1.5em;
     margin: 0.5em;
     color: #333;
-    background: #fff684;
     overflow: hidden;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -47,7 +46,6 @@ ul {
       right: 0;
       border-width: 0 16px 16px 0;
       border-style: solid;
-      border-color: #fff #fff #d6cd2f #d6cd2f;
       background: #d6cd2f;
       box-shadow: 0 1px 1px rgba(0,0,0,0.1), -1px 1px 1px rgba(0,0,0,0.1);
     }
@@ -64,6 +62,30 @@ ul {
       padding: 0px;
       margin: 0px;
       cursor: pointer;
+    }
+
+    &.yellow {
+      background: #fdf7b7;
+
+      &::before {
+        border-color: #fff #fff #fdf7b7 #fdf7b7;
+      }
+    }
+
+    &.blue {
+      background: #8bcdec;
+
+      &::before {
+        border-color: #fff #fff #8bcdec #8bcdec;
+      }
+    }
+
+    &.pink {
+      background: #edc4c8;
+
+      &::before {
+        border-color: #fff #fff #edc4c8 #edc4c8;
+      }
     }
   }
 }

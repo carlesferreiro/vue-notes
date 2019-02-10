@@ -9,7 +9,16 @@
 		<nav class="navbar is-fixed-bottom">
 			<div class="form container">
 				<div class="columns full">
-					<div class="column is-10"><input class="input" v-model="draft" @keyup.enter="addNote" /></div>
+					<div class="column is-8"><input class="input" v-model="draft" @keyup.enter="addNote" /></div>
+					<div class="column is-2">
+						<div class="select">
+							<select v-model="selectedColor">
+								<option>blue</option>
+								<option>yellow</option>
+								<option>pink</option>
+							</select>
+						</div>
+					</div>
 					<div class="column is-2"><button class="button full" @click="addNote">Afegir</button></div>
 				</div>
 			</div>
@@ -29,7 +38,8 @@
 		data() {
 			return {
 				draft: '',
-				notes: []
+				notes: [],
+				selectedColor: 'yellow',
 			}
 		},
 		methods: {
@@ -37,7 +47,8 @@
 				let id = this.notes.length+1;
 				this.notes.push({
 					id,
-					draft: this.draft,
+					description: this.draft,
+					background: this.selectedColor,
 				});
 				this.draft = '';
 			},
@@ -54,7 +65,7 @@ html, body {
 	height: 100%;
 }
 h1 {
-	margin: 1em 0;
+	padding: 1em 0;
 }
 .full {
 	width: 100%;
