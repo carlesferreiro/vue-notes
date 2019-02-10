@@ -9,7 +9,9 @@
 		<nav class="navbar is-fixed-bottom">
 			<div class="form container">
 				<div class="columns full">
-					<div class="column is-8"><input placeholder="Type an awesome note" ref="input" class="input" v-model="draft" @keyup.enter="addNote" /></div>
+					<div class="column is-8">
+						<input placeholder="Type an awesome note" ref="input" class="input" v-model="draft" @keyup.enter="addNote" />
+					</div>
 					<div class="column is-2">
 						<div class="select full">
 							<select class="full" v-model="selectedColor">
@@ -19,7 +21,9 @@
 							</select>
 						</div>
 					</div>
-					<div class="column is-2"><button :disabled="!canAdd" class="button full" @click="addNote">Add note</button></div>
+					<div class="column is-2">
+						<button :disabled="!canAdd" class="button full" @click="addNote">Add note</button>
+					</div>
 				</div>
 			</div>
 		</nav>
@@ -37,6 +41,14 @@
 		},
 		mounted() {
 			this.$refs.input.focus();
+
+			if (localStorage.getItem('notes')) {
+				try {
+					this.notes = JSON.parse(localStorage.getItem('notes'));
+				} catch(e) {
+					localStorage.removeItem('notes');
+				}
+			}
 		},
 		data() {
 			return {
@@ -61,14 +73,21 @@
 					editing: false,
 				});
 				this.draft = '';
+				this.saveNotes();
 			},
 			deleteNote(id) {
 				let index = this.notes.findIndex(note => note.id == id);
 				if(index>=0) this.notes.splice(index, 1);
+				this.saveNotes();
 			},
 			toggleEditNote(id) {
 				let index = this.notes.findIndex(note => note.id == id);
 				this.notes[index].editing=!this.notes[index].editing;
+				this.saveNotes();
+			},
+			saveNotes() {
+				const parsed = JSON.stringify(this.notes);
+				localStorage.setItem('notes', parsed);
 			}
 		}
 	}
